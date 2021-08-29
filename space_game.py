@@ -50,7 +50,7 @@ class Ship:
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect() #kid
         #Load image and rectangle
-        self.image = pg.image.load('assets/ship.bmp')
+        self.image = pg.image.load('assets/ship.png')
         self.rect = self.image.get_rect()
         #indicate start position in game when amde
         self.rect.midbottom = self.screen_rect.midbottom
