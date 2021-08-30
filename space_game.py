@@ -1,13 +1,14 @@
-import os.path      #os.path is file location
-import pygame as pg #game library
-import eventmanager as em
-import player as p
-import settings
+import os.path                      #os.path is file location
+import pygame as pg                 #game library
+from eventmanager import EventManager #all keyboard input
+from player import Ship               #Player, or ship/
+from settings import Settings        #all game settings
+from bullet import Bullet            #Players bullets
 
 class SpaceGame:
     def __init__(self):
         #Game settings
-        self.settings = settings.Settings()
+        self.settings = Settings()
         #Init PyGame Objects
         self.screen = pg.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         
@@ -17,8 +18,9 @@ class SpaceGame:
         #self.settings.screen_height = self.screen.get_rect().height
         
         #Init my objects.
-        self.ship = p.Ship(self)
-        self.evm = em.EventManager(self)
+        self.ship = Ship(self)
+        self.bullets = pg.sprite.Group()
+        self.evm = EventManager(self)
 
     def run_game(self):
         #game run
@@ -28,12 +30,19 @@ class SpaceGame:
     
     def update(self):
         self.evm.get_event_input()
+        self.bullets.update()
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet) #delete bullet outside of scope
+
         self.ship.update()
 
     def draw(self):
         #Background
         self.screen.fill(self.settings.bg_color) #sets color of screen
         #Background Objects
+        for bullet in self.bullets.sprites():
+            bullet.draw()
         #enemies
         #Player
         self.ship.draw()
