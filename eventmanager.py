@@ -1,5 +1,7 @@
 import sys
 import pygame as pg
+
+#Linux OP
 class EventManager:
     def __init__(self, game):
         self.game = game
